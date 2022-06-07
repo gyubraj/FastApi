@@ -49,3 +49,42 @@ async def get_file_path(file_path: str):
     }
 
 # to run the app, 
+
+
+# Query Parameters
+
+fake_object : list[dict[str,str]] =[
+    {
+        'name' : 'yubraj'
+    },
+    {
+        'name' : 'shreeva'
+    },
+    {
+        'name' : 'dev'
+    },
+    {
+        'name' : 'saugat'
+    },
+    {
+        'name' : 'manish'
+    },
+    {
+        'name' : 'puskal'
+    },
+
+]
+
+@app.get('/query-parameter')
+async def query_parameters(start :int = 0, limit :int = 2):
+    return fake_object[start:start+limit]
+
+@app.get('/optional-query-parameter')
+async def optional_query_parameter(data: int = 0, q: str | None = None):
+    if q:
+        return {
+            'q': q
+        }
+    return {
+        'data': data
+    }
