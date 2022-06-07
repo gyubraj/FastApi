@@ -1,6 +1,8 @@
 from enum import Enum
 from fastapi import FastAPI
 
+from pydantic import BaseModel
+
 
 class ModelName(str, Enum):
     app = "app"
@@ -87,4 +89,49 @@ async def optional_query_parameter(data: int = 0, q: str | None = None):
         }
     return {
         'data': data
+    }
+
+# Request Body 
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+
+@app.post("/items/")
+async def create_item(item: Item):
+    # This will chnage model into dict
+    print(type(item.dict()))
+
+    item_dict = item.dict()
+
+    if item.tax:
+        item.price = item.price + item.tax
+    
+    item_dict.update({
+        'price_with_tax': item_dict['price'] + item_dict['tax']
+    })
+    
+    return item_dict
+
+# Request Body + Path Parameters
+
+@app.post('/items-path-parameters/{item_id}')
+async def create_item_with_path_parameter(item_id: str, item: Item):
+    """
+    This is just for testing purpose as i want to see docs
+    """
+    return {
+        'item_id': item_id,
+        **item.dict()
+    }
+
+# request Body + Path + Query Parameters
+@app.post('/items-path-query-parameter/{item_id}')
+async def create_item_path_query_parameter(item_id: int, item: Item, query: str):
+    return {
+        'item_id': item_id,
+        'query': query,
+        **item.dict()
     }
