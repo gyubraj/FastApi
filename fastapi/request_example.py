@@ -35,3 +35,30 @@ async def single_example_item(item: Item = Body(example={
 
 
 
+@app.post('/multiple-example-items/')
+async def multiple_example_items(item: Item = Body(examples={
+                "normal":{
+                    "summary": "A normal example.",
+                    "description": "Just Test",
+                    "value":{
+                        "name": "Book",
+                        "description": "Book is written by Yubraj Upadhaya.",
+                        "price": 45.3,
+                        "tax": 12.3
+                    },
+                },
+                "converted":{
+                    "summary": "A converted example.",
+                    "description": "Just Test",
+                    "value":{
+                        "name": "Book",
+                        "description": "Book is written by Yubraj Upadhaya.",
+                        "price": 45.3,
+                        "tax": 12.3
+                    },
+                },
+
+            })):
+    return item.dict()
+
+
