@@ -58,7 +58,6 @@ async def multiple_example_items(item: Item = Body(examples={
                         "tax": 12.3
                     },
                 },
-
             })):
     return item.dict()
 
