@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI, Body
 from pydantic import BaseModel, Field
 
@@ -60,5 +61,6 @@ async def multiple_example_items(item: Item = Body(examples={
 
             })):
     return item.dict()
+
 
 
