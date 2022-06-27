@@ -85,3 +85,13 @@ items = {
 async def read_items(item_id: str):
     return items[item_id]
 
+# List of models
+
+items = [
+    {"type": "Foo", "description": "There comes my hero"},
+    {"type": "Red", "description": "It's my aeroplane"},
+]
+
+@app.get("/list-items/", response_model=list[BaseItem])
+async def read_list_items():
+    return items
