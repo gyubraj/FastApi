@@ -1,4 +1,5 @@
 
+from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
 
@@ -54,4 +55,33 @@ class ReduceUserOut(UserBase):
 
 class UserInDB(UserBase):
     hashed_password: str
+
+# Union or anyOf
+
+class BaseItem(BaseModel):
+    description: str
+    type: str
+
+class CarItem(BaseItem):
+    type = "car"
+
+class PlaneItem(BaseItem):
+    type = "plane"
+    size: int
+
+items = {
+    "item1": {"description": "All my friends drive a low rider", "type": "car"},
+    "item2": {
+        "description": "Music is my aeroplane, it's my aeroplane",
+        "type": "plane",
+        "size": 5,
+    },
+    "item3": {
+        "description": "Music is my aeroplane, it's my aeroplane"
+    }
+}
+
+@app.get("/items/{item_id}", response_model=Union[CarItem, PlaneItem])
+async def read_items(item_id: str):
+    return items[item_id]
 
