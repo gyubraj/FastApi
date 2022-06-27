@@ -38,3 +38,20 @@ async def create_user(user_in: UserIn):
     return user_saved
 
 
+# Reduce Duplication 
+
+class UserBase(BaseModel):
+    username: str
+    email: EmailStr
+    full_name: str
+
+
+class ReduceUserIn(UserBase):
+    password: str
+
+class ReduceUserOut(UserBase):
+    pass
+
+class UserInDB(UserBase):
+    hashed_password: str
+
